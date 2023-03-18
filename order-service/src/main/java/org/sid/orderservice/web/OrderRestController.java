@@ -7,6 +7,7 @@ import org.sid.orderservice.repositories.OrderRepository;
 import org.sid.orderservice.repositories.ProductItemRepository;
 import org.sid.orderservice.services.CustomerRestCient;
 import org.sid.orderservice.services.ProductRestClient;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ public class OrderRestController {
     }
 
     @GetMapping(path = "/fullOrder/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     public Order getOrder(@PathVariable Long id){
         Order order=orderRepository.findById(id).get();
         Customer customer=customerRestCient.customerById(order.getCustomerId());

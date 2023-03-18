@@ -5,6 +5,7 @@ import org.sid.billingservice.repository.BillRepository;
 import org.sid.billingservice.repository.ProductItemRepository;
 import org.sid.billingservice.services.CustomerRestClient;
 import org.sid.billingservice.services.ProductRestClient;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ public class BillRestController {
     }
 
     @GetMapping(path = "/fullBill/{id}")
+    @PreAuthorize("hasAuthority('User')")
     public Bill bill(@PathVariable Long id){
         Bill bill= billRepository.findById(id).get();
         bill.setCustomer(customerRestClient.findCustomerById(bill.getCustomerId()));
